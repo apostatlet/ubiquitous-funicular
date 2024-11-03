@@ -1,5 +1,5 @@
 // Cache name and files to cache
-const cacheName = 'unit-converter-cache';
+const cacheName = 'unit-converter-cache-v3'; // Change version to force update
 const filesToCache = [
   '/',
   '/index.html',
