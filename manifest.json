@@ -4,8 +4,8 @@
   "description": "A simple unit converter for temperature, distance, speed, and more.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1a1a1a",  // Dark background color
-  "theme_color": "#333333",        // Dark theme color
+  "background_color": "#1a1a1a",
+  "theme_color": "#333333",
   "icons": [
     {
       "src": "icon-192.png",
