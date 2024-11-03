@@ -1,5 +1,5 @@
 // Cache name and files to cache
-const cacheName = 'unit-converter-cache-v5'; // Incremented version
+const cacheName = 'unit-converter-cache-v6'; // Updated version
 const filesToCache = [
   '/',
   '/index.html',
@@ -19,11 +19,27 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Fetch event - serving cached content when offline
+// Activate event - delete old caches
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames
+          .filter((cache) => cache !== cacheName)
+          .map((cache) => caches.delete(cache))
+      );
+    })
+  );
+});
+
+// Fetch event - serving cached content when offline with fallback
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
-      return response || fetch(event.request);
+      return response || fetch(event.request).catch(() => {
+        // If the request fails and isn’t in cache, fallback to the homepage
+        return caches.match('/index.html');
+      });
     })
   );
 });
