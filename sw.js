@@ -1,5 +1,5 @@
 // Cache name and files to cache
-const cacheName = 'unit-converter-cache-v8'; // Increment cache version
+const cacheName = 'unit-converter-cache-v9';
 const filesToCache = [
   '/',
   '/index.html',
@@ -32,7 +32,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - serving cached content when offline with fallback to index.html
+// Fetch event - serving cached content when offline with fallback to /index.html
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
