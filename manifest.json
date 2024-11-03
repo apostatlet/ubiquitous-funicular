@@ -2,10 +2,10 @@
   "name": "Unit Converter",
   "short_name": "Converter",
   "description": "A simple unit converter for temperature, distance, speed, and more.",
-  "start_url": "/index.html",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#007bff",
+  "background_color": "#1a1a1a",  // Dark background color
+  "theme_color": "#333333",  // Dark theme color
   "icons": [
     {
       "src": "icon-192.png",
@@ -17,5 +17,3 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
-}
