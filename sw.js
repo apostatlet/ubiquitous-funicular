@@ -1,13 +1,13 @@
 // Cache name and files to cache
-const cacheName = 'unit-converter-cache-v6'; // Updated version
+const cacheName = 'unit-converter-cache-v7'; // Increment cache version
 const filesToCache = [
-  '/',
-  '/index.html',
-  '/app.js',
-  '/manifest.json',
-  '/icon-192.png',
-  '/icon-512.png',
-  '/sw.js' // Include the service worker itself
+  './',
+  './index.html',
+  './app.js',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png',
+  './sw.js'
 ];
 
 // Install event - caching the app shell
@@ -32,14 +32,19 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - serving cached content when offline with fallback
+// Fetch event - serving cached content when offline with fallback to index.html
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     caches.match(event.request).then((response) => {
-      return response || fetch(event.request).catch(() => {
-        // If the request fails and isn’t in cache, fallback to the homepage
-        return caches.match('/index.html');
-      });
+      return (
+        response ||
+        fetch(event.request).catch(() => {
+          // Serve index.html as fallback for navigation requests
+          if (event.request.mode === 'navigate') {
+            return caches.match('./index.html');
+          }
+        })
+      );
     })
   );
 });
