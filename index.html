@@ -29,13 +29,30 @@
   <button onclick="toggleSign()">±</button>
   <button onclick="convert()">Convert</button>
   <ul id="results"></ul>
-  
+
+  <!-- Service Worker Log Area -->
+  <div id="logArea" style="white-space: pre-wrap; background-color: #333; color: #fff; padding: 10px; margin-top: 10px;">
+    <h3>Service Worker Logs</h3>
+  </div>
+
   <script src="app.js"></script>
   <script>
+    function logToApp(message) {
+      const logArea = document.getElementById('logArea');
+      logArea.innerText += message + '\n';
+    }
+
+    // Listen for messages from the service worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('/sw.js', { scope: '/' })
-        .then(registration => console.log('Service Worker registered with scope:', registration.scope))
+        .then(registration => {
+          console.log('Service Worker registered with scope:', registration.scope);
+        })
         .catch(error => console.error('Service Worker registration failed:', error));
+
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        logToApp(event.data);
+      });
     }
   </script>
 </body>
