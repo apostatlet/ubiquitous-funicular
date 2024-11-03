@@ -2,7 +2,7 @@
   "name": "Unit Converter",
   "short_name": "Converter",
   "description": "A simple unit converter for temperature, distance, speed, and more.",
-  "start_url": "/",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#1a1a1a",
   "theme_color": "#333333",
