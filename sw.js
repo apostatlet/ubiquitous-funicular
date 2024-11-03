@@ -1,5 +1,5 @@
 // Cache name and files to cache
-const cacheName = 'unit-converter-cache-v11';
+const cacheName = 'unit-converter-cache-v12';
 const filesToCache = [
   '/',
   '/index.html',
@@ -10,13 +10,21 @@ const filesToCache = [
   '/sw.js'
 ];
 
-console.log('Service Worker: registered and caching');
+// Helper function to log messages to the app
+function logToApp(message) {
+  self.clients.matchAll().then(clients => {
+    clients.forEach(client => client.postMessage(message));
+  });
+}
+
+logToApp('Service Worker: registered and caching');
 
 // Install event - caching the app shell
 self.addEventListener('install', (event) => {
+  logToApp('Service Worker: Install event - caching files');
   event.waitUntil(
     caches.open(cacheName).then((cache) => {
-      console.log('Service Worker: caching all files');
+      logToApp('Service Worker: Caching all specified files');
       return cache.addAll(filesToCache);
     })
   );
@@ -24,21 +32,24 @@ self.addEventListener('install', (event) => {
 
 // Activate event - delete old caches
 self.addEventListener('activate', (event) => {
-  console.log('Service Worker: activating and deleting old caches');
+  logToApp('Service Worker: Activate event - deleting old caches');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames
           .filter((cache) => cache !== cacheName)
-          .map((cache) => caches.delete(cache))
+          .map((cache) => {
+            logToApp(`Service Worker: Deleting cache ${cache}`);
+            return caches.delete(cache);
+          })
       );
     })
   );
 });
 
-// Fetch event - network first for navigation, cache first for others
+// Fetch event - network-first for navigation, cache-first for others
 self.addEventListener('fetch', (event) => {
-  console.log('Service Worker: fetching resource', event.request.url);
+  logToApp(`Service Worker: Fetching resource ${event.request.url}`);
 
   if (event.request.mode === 'navigate') {
     // Network-first strategy for navigation requests
@@ -46,15 +57,16 @@ self.addEventListener('fetch', (event) => {
       fetch(event.request)
         .then((networkResponse) => {
           // Successful network response, update the cache
+          logToApp(`Service Worker: Network success for ${event.request.url}`);
           return caches.open(cacheName).then((cache) => {
             cache.put(event.request, networkResponse.clone());
-            console.log('Service Worker: updated cache with network response for', event.request.url);
+            logToApp(`Service Worker: Updated cache with network response for ${event.request.url}`);
             return networkResponse;
           });
         })
         .catch(() => {
           // Network failed, fallback to cache
-          console.log('Service Worker: network failed, serving from cache', event.request.url);
+          logToApp(`Service Worker: Network failed, serving from cache ${event.request.url}`);
           return caches.match('/index.html');
         })
     );
@@ -62,6 +74,11 @@ self.addEventListener('fetch', (event) => {
     // Cache-first strategy for other requests
     event.respondWith(
       caches.match(event.request).then((response) => {
+        if (response) {
+          logToApp(`Service Worker: Cache hit for ${event.request.url}`);
+        } else {
+          logToApp(`Service Worker: Cache miss, fetching from network ${event.request.url}`);
+        }
         return response || fetch(event.request);
       })
     );
