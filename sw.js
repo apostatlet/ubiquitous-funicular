@@ -1,13 +1,13 @@
 // Cache name and files to cache
-const cacheName = 'unit-converter-cache-v7'; // Increment cache version
+const cacheName = 'unit-converter-cache-v8'; // Increment cache version
 const filesToCache = [
-  './',
-  './index.html',
-  './app.js',
-  './manifest.json',
-  './icon-192.png',
-  './icon-512.png',
-  './sw.js'
+  '/',
+  '/index.html',
+  '/app.js',
+  '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png',
+  '/sw.js'
 ];
 
 // Install event - caching the app shell
@@ -39,9 +39,9 @@ self.addEventListener('fetch', (event) => {
       return (
         response ||
         fetch(event.request).catch(() => {
-          // Serve index.html as fallback for navigation requests
+          // Serve /index.html as fallback for navigation requests
           if (event.request.mode === 'navigate') {
-            return caches.match('./index.html');
+            return caches.match('/index.html');
           }
         })
       );
