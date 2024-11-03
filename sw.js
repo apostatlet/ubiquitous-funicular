@@ -1,5 +1,5 @@
 // Cache name and files to cache
-const cacheName = 'unit-converter-cache-v8'; // Increment cache version as needed
+const cacheName = 'unit-converter-cache-v8';
 const filesToCache = [
   '/',
   '/index.html',
