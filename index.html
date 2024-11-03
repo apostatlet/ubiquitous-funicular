@@ -26,16 +26,17 @@
 <body>
   <h1>Unit Converter</h1>
   <input type="number" id="inputValue" placeholder="Enter a number" step="any">
-<button onclick="toggleSign()">±</button>
-<button onclick="convert()">Convert</button>
-<ul id="results"></ul>
+  <button onclick="toggleSign()">±</button>
+  <button onclick="convert()">Convert</button>
+  <ul id="results"></ul>
+  
   <script src="app.js"></script>
   <script>
-  if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js')
-      .then(registration => console.log('Service Worker registered with scope:', registration.scope))
-      .catch(error => console.error('Service Worker registration failed:', error));
-  }
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js', { scope: '/' })
+        .then(registration => console.log('Service Worker registered with scope:', registration.scope))
+        .catch(error => console.error('Service Worker registration failed:', error));
+    }
   </script>
 </body>
 </html>
