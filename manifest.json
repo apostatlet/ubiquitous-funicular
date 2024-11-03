@@ -5,7 +5,7 @@
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1a1a1a",  // Dark background color
-  "theme_color": "#333333",  // Dark theme color
+  "theme_color": "#333333",        // Dark theme color
   "icons": [
     {
       "src": "icon-192.png",
@@ -17,3 +17,5 @@
       "sizes": "512x512",
       "type": "image/png"
     }
+  ]
+}
