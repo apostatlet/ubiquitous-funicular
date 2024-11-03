@@ -1,5 +1,5 @@
 // Cache name and files to cache
-const cacheName = 'unit-converter-cache-v9';
+const cacheName = 'unit-converter-cache-v10';
 const filesToCache = [
   '/',
   '/index.html',
@@ -32,19 +32,19 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event - serving cached content when offline with fallback to /index.html
+// Fetch event - ensure all navigation requests return /index.html when offline
 self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request).then((response) => {
-      return (
-        response ||
-        fetch(event.request).catch(() => {
-          // Serve /index.html as fallback for navigation requests
-          if (event.request.mode === 'navigate') {
-            return caches.match('/index.html');
-          }
-        })
-      );
-    })
-  );
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      caches.match('/index.html').then((response) => {
+        return response || fetch('/index.html');
+      })
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then((response) => {
+        return response || fetch(event.request);
+      })
+    );
+  }
 });
