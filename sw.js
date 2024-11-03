@@ -1,12 +1,13 @@
 // Cache name and files to cache
-const cacheName = 'unit-converter-cache-v4'; // or update to a new version if needed
+const cacheName = 'unit-converter-cache-v5'; // Incremented version
 const filesToCache = [
   '/',
   '/index.html',
   '/app.js',
   '/manifest.json',
   '/icon-192.png',
-  '/icon-512.png'
+  '/icon-512.png',
+  '/sw.js' // Include the service worker itself
 ];
 
 // Install event - caching the app shell
