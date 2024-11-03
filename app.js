@@ -1,3 +1,12 @@
+function toggleSign() {
+  const input = document.getElementById('inputValue');
+  const value = parseFloat(input.value);
+
+  if (!isNaN(value)) {
+    input.value = (value * -1).toString();
+  }
+}
+
 function convert() {
   const value = parseFloat(document.getElementById('inputValue').value);
   const results = document.getElementById('results');
